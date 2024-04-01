@@ -82,7 +82,10 @@ export default class Todo extends Component {
       this.setState({ todos: todos });
     }
 
-    // reset form
+    this.clearForm();
+  };
+
+  clearForm = () => {
     this.setState({
       form: {
         id: "",
@@ -101,7 +104,6 @@ export default class Todo extends Component {
 
   //1. ketika tombol edit di click form di isi dengan data existing
   //2. onsubmit jika ada id di state.form maka update, jika tidak ada maka save
-  // UPDATE m_todo SET task = '', description = 'Makan Kangkung' WHERE id = ?
 
   render() {
     return (
@@ -178,6 +180,7 @@ export default class Todo extends Component {
               Submit
             </button>
             <button
+              onClick={this.clearForm}
               type="reset"
               className="btn btn-secondary me-2 d-flex align-items-center gap-2"
             >
