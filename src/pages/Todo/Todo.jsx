@@ -129,12 +129,7 @@ export default class Todo extends Component {
               name="task"
               value={this.state.form.task}
             />
-            <div
-              id="validationServerUsernameFeedback"
-              className="invalid-feedback"
-            >
-              {this.state.errors.task}
-            </div>
+            <div className="invalid-feedback">{this.state.errors.task}</div>
           </div>
           <div className="mb-3">
             <label htmlFor="description" className="form-label">
@@ -150,10 +145,7 @@ export default class Todo extends Component {
               rows="3"
               value={this.state.form.description}
             ></textarea>
-            <div
-              id="validationServerUsernameFeedback"
-              className="invalid-feedback"
-            >
+            <div className="invalid-feedback">
               {this.state.errors.description}
             </div>
           </div>
