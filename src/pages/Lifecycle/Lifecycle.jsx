@@ -41,7 +41,7 @@ export default class Lifecycle extends Component {
             || Short circuit digunakan untuk memberikan default value
         */}
         {this.state.isShow && <SubLifecycle changeValue={this.changeValue} />}
-        {/* {"Ini ada sebelah kiri" || "Ini ada sebelah kanan"} */}
+        {"Ini ada sebelah kiri" || "Ini ada sebelah kanan"}
       </>
     );
   }
