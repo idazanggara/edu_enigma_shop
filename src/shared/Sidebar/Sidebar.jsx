@@ -12,6 +12,7 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import PropTypes from "prop-types";
+
 import Dashboard from "@pages/Dashboard/Dashboard";
 import Todo from "@pages/Todo/Todo";
 
@@ -52,9 +53,7 @@ export default class Sidebar extends Component {
             <div className="collapse" id="dashboard-collapse">
               <ul className="text-white cursor-pointer d-flex flex-column gap-3 btn-toggle-nav list-unstyled mx-4">
                 <li
-                  onClick={() => {
-                    navigateTo(<Dashboard />);
-                  }}
+                  onClick={() => navigateTo(<Dashboard />)}
                   className="cursor-pointer"
                 >
                   <i className="me-3">
@@ -63,9 +62,7 @@ export default class Sidebar extends Component {
                   <span>Home</span>
                 </li>
                 <li
-                  onClick={() => {
-                    navigateTo(<Todo />);
-                  }}
+                  onClick={() => navigateTo(<Todo />)}
                   className="cursor-pointer"
                 >
                   <i className="me-3">
