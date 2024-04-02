@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "@shared/Sidebar/Sidebar";
-import Header from "@shared/Header/Header";
+import Sidebar from "@shared/components/Sidebar/Sidebar";
+import Header from "@shared/components/Header/Header";
 // import Dashboard from "./pages/Dashboard/Dashboard";
 import Todo from "./pages/Todo/Todo";
 
@@ -10,7 +10,9 @@ class App extends React.Component {
   };
 
   navigateTo = (component) => {
-    this.setState({ page: component });
+    this.setState({
+      page: component,
+    });
   };
 
   render() {
