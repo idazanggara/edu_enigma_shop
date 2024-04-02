@@ -12,11 +12,15 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import PropTypes from "prop-types";
-
 import Dashboard from "@pages/Dashboard/Dashboard";
 import Todo from "@pages/Todo/Todo";
 
 export default class Sidebar extends Component {
+  handleLogout = () => {
+    if (!confirm("Apakah yakin ingin logout?")) return;
+    this.props.handleAuthentication(false);
+  };
+
   render() {
     const { navigateTo } = this.props;
 
@@ -105,7 +109,10 @@ export default class Sidebar extends Component {
               <span>User</span>
             </li>
             <hr />
-            <li className="cursor-pointer text-white">
+            <li
+              onClick={this.handleLogout}
+              className="cursor-pointer text-white"
+            >
               <i className="me-3">
                 <IconDoorExit />
               </i>
@@ -120,4 +127,5 @@ export default class Sidebar extends Component {
 
 Sidebar.propTypes = {
   navigateTo: PropTypes.func,
+  handleAuthentication: PropTypes.func,
 };

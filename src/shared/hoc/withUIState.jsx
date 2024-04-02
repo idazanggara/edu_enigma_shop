@@ -1,9 +1,13 @@
 import { Component } from "react";
+import Toast from "@shared/components/Toast/Toast";
 
-export default function withLoading(WrappedComponent) {
+export default function withUIState(WrappedComponent) {
   return class HOC extends Component {
     state = {
       isLoading: false,
+      showToast: false,
+      toastMessage: "",
+      toastColor: "primary",
     };
 
     handleShowLoading = () => {
@@ -18,14 +22,35 @@ export default function withLoading(WrappedComponent) {
       });
     };
 
+    showToast = (message, color) => {
+      this.setState({
+        showToast: true,
+        toastMessage: message,
+        toastColor: color || this.state.toastColor,
+      });
+
+      setTimeout(() => {
+        this.setState({ showToast: false });
+      }, 4000);
+    };
+
     render() {
       return (
-        <WrappedComponent
-          {...this.props}
-          isLoading={this.state.isLoading}
-          showLoading={this.handleShowLoading}
-          hideLoading={this.handleHideLoading}
-        />
+        <>
+          {this.state.showToast && (
+            <Toast
+              message={this.state.toastMessage}
+              color={this.state.toastColor}
+            />
+          )}
+          <WrappedComponent
+            {...this.props}
+            showToast={this.showToast}
+            isLoading={this.state.isLoading}
+            showLoading={this.handleShowLoading}
+            hideLoading={this.handleHideLoading}
+          />
+        </>
       );
     }
   };

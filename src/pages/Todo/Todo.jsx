@@ -2,7 +2,7 @@ import { Component } from "react";
 import TodoForm from "./components/TodoForm";
 import TodoList from "./components/TodoList";
 import Loading from "@shared/components/Loading/Loading";
-import withLoading from "@shared/hoc/withLoading";
+import withUIState from "@shared/hoc/withUIState";
 import PropTypes from "prop-types";
 
 class Todo extends Component {
@@ -84,6 +84,7 @@ class Todo extends Component {
         const todo = { ...this.state.form };
         todos.splice(index, 1, todo);
         this.setState({ todos: todos });
+        this.props.showToast("Sukses ubah Todo.");
       } else {
         const todo = {
           ...this.state.form,
@@ -92,6 +93,7 @@ class Todo extends Component {
 
         todos.push(todo);
         this.setState({ todos: todos });
+        this.props.showToast("Sukses tambah Todo.");
       }
       this.props.hideLoading();
       this.clearForm();
@@ -115,6 +117,7 @@ class Todo extends Component {
     setTimeout(() => {
       const todos = this.state.todos.filter((todo) => todo.id !== id);
       this.setState({ todos: todos });
+      this.props.showToast("Sukses hapus Todo.", "danger");
       this.props.hideLoading();
     }, 1000);
   };
@@ -154,9 +157,10 @@ Todo.propTypes = {
   isLoading: PropTypes.bool,
   showLoading: PropTypes.func,
   hideLoading: PropTypes.func,
+  showToast: PropTypes.func,
 };
 
 // tujuannya untuk menghilangkan warning dari eslint
-const TodoComponent = withLoading(Todo);
+const TodoComponent = withUIState(Todo);
 
 export default TodoComponent;
