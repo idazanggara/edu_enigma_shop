@@ -2,6 +2,7 @@ import { Component } from "react";
 import { IconArrowLeft } from "@tabler/icons-react";
 import login from "@/assets/images/login.svg";
 import PropTypes from "prop-types";
+import withUIState from "@shared/hoc/withUIState";
 
 class Login extends Component {
   state = {
@@ -60,6 +61,8 @@ class Login extends Component {
 
     if (username === "admin" && password === "password") {
       this.props.handleAuthentication(true);
+    } else {
+      this.props.showToast("username atau password salah", "danger");
     }
   };
 
@@ -143,6 +146,9 @@ class Login extends Component {
 
 Login.propTypes = {
   handleAuthentication: PropTypes.func,
+  showToast: PropTypes.func,
 };
 
-export default Login;
+const LoginComponent = withUIState(Login);
+
+export default LoginComponent;
