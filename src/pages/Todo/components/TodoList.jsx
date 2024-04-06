@@ -1,10 +1,28 @@
 import { Component } from "react";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { remove, selectedTodo } from "@/slices/todoSlice";
+import { getTodosAction } from "../../../slices/todoSlice";
+import Loading from "@shared/components/Loading/Loading";
 
-export default class TodoList extends Component {
+class TodoList extends Component {
+  componentDidMount() {
+    this.props.getTodosAction();
+  }
+
+  handleDelete = (id) => {
+    if (!confirm("Apakah todo ini ingin dihapus?")) return;
+    this.props.remove(id);
+  };
+
   render() {
-    const { todos, handleDelete, handleSelectedTodo } = this.props;
+    const { todos, isLoading } = this.props;
+
+    if (isLoading) {
+      return <Loading />;
+    }
+
     return (
       <div className="shadow-sm p-4 rounded-2 mt-4">
         <h3>List Todo</h3>
@@ -38,13 +56,13 @@ export default class TodoList extends Component {
                     <td>
                       <div className="d-flex gap-2">
                         <button
-                          onClick={() => handleSelectedTodo(todo)}
+                          onClick={() => this.props.selectedTodo(todo)}
                           className="btn btn-primary"
                         >
                           <IconEdit size={22} />
                         </button>
                         <button
-                          onClick={() => handleDelete(todo.id)}
+                          onClick={() => this.handleDelete(todo.id)}
                           className="btn btn-danger text-white"
                         >
                           <IconTrash size={22} />
@@ -64,6 +82,36 @@ export default class TodoList extends Component {
 
 TodoList.propTypes = {
   todos: PropTypes.array,
-  handleDelete: PropTypes.func,
-  handleSelectedTodo: PropTypes.func,
+  remove: PropTypes.func,
+  selectedTodo: PropTypes.func,
+  getTodosAction: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
+
+const mapStateToProps = (state) => {
+  // state.todo -> obj property dari store.reducer
+  // state.todo.todos -> state dari todoSlice
+  return {
+    todos: state.todo.todos,
+    isLoading: state.todo.isLoading,
+  };
+};
+
+// import actions dari slice
+const mapDispatchToProps = {
+  remove,
+  selectedTodo,
+  getTodosAction,
+};
+
+// cara ribet
+// const withReduxStore = connect(mapStateToProps, null);
+// const TodoListComponent = withReduxStore(TodoList);
+
+// shorthand
+const TodoListComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TodoList);
+
+export default TodoListComponent;

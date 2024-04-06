@@ -2,14 +2,14 @@ import React from "react";
 import Sidebar from "@shared/components/Sidebar/Sidebar";
 import Header from "@shared/components/Header/Header";
 import Login from "@pages/Authentication/Login";
-import Dashboard from "@pages/Dashboard/Dashboard";
+import Todo from "@pages/Todo/Todo";
 import withUIState from "@shared/hoc/withUIState";
 import PropTypes from "prop-types";
 
 class App extends React.Component {
   state = {
-    page: <Dashboard />,
-    isAuthenticated: false,
+    page: <Todo />,
+    isAuthenticated: true,
   };
 
   navigateTo = (component) => {
