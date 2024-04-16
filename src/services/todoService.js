@@ -33,9 +33,28 @@ function TodoService() {
         })
     }
 
+    const update = (todo) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (todo) {
+                    todos = todos.map((t) => {
+                        if (t.id === todo.id) {
+                            return { ...todo }
+                        }
+                        return t;
+                    });
+                    resolve('Sukses update Todo');
+                } else {
+                    reject('Todo tidak boleh kosong')
+                }
+            }, 1500)
+        });
+    }
+
     return {
         getAll,
-        create
+        create,
+        update,
     }
 }
 

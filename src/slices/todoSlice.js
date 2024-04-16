@@ -13,6 +13,12 @@ export const postTodoAction = createAsyncThunk('todo/postTodo', async (payload, 
     return response;
 });
 
+export const putTodoAction = createAsyncThunk('todo/putTodo', async (payload, thunkAPI) => {
+    const response = await service.update(payload);
+    await thunkAPI.dispatch(getTodosAction());
+    return response;
+});
+
 const todoSlice = createSlice({
     name: 'todo',
     initialState: {
@@ -61,6 +67,17 @@ const todoSlice = createSlice({
             state.isLoading = false;
         });
         builder.addCase(postTodoAction.rejected, (state) => {
+            state.isLoading = false;
+        });
+
+        builder.addCase(putTodoAction.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(putTodoAction.fulfilled, (state, { payload }) => {
+            state.message = payload;
+            state.isLoading = false;
+        });
+        builder.addCase(putTodoAction.rejected, (state) => {
             state.isLoading = false;
         });
     }

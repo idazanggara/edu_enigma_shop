@@ -4,8 +4,12 @@ import TodoList from "./components/TodoList";
 function Todo() {
   return (
     <>
-      <TodoForm />
-      <TodoList />
+      <div className="p-4">
+        <TodoForm />
+      </div>
+      <div className="p-4">
+        <TodoList />
+      </div>
     </>
   );
 }

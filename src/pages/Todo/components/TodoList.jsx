@@ -1,27 +1,23 @@
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { useMemo } from "react";
-import { useState } from "react";
-import TodoService from "../../../services/todoService";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import Loading from "@shared/components/Loading/Loading";
+import { getTodosAction, selectedTodo } from "../../../slices/todoSlice";
 function TodoList() {
-  const [todos, setTodos] = useState([]);
+  // mirip dengan mapStateToProps
+  const { todos, isLoading } = useSelector((state) => state.todo);
 
-  const todoService = useMemo(() => {
-    return TodoService();
-  }, []);
-
-  const handleDelete = (id) => {
-    if (!confirm("Apakah todo ini ingin dihapus?")) return;
-    setTodos([...todos].filter((todo) => todo.id !== id));
-  };
+  // mirip dengan mapDispatchToProps
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      const data = await todoService.getAll();
-      setTodos(data);
-    };
-    fetchTodos();
-  }, [todoService]);
+    dispatch(getTodosAction());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="shadow-sm p-4 rounded-2 mt-4">
@@ -56,15 +52,12 @@ function TodoList() {
                   <td>
                     <div className="d-flex gap-2">
                       <button
-                        // onClick={() => this.props.selectedTodo(todo)}
                         className="btn btn-primary"
+                        onClick={() => dispatch(selectedTodo(todo))}
                       >
                         <IconEdit size={22} />
                       </button>
-                      <button
-                        onClick={() => handleDelete(todo.id)}
-                        className="btn btn-danger text-white"
-                      >
+                      <button className="btn btn-danger text-white">
                         <IconTrash size={22} />
                       </button>
                     </div>

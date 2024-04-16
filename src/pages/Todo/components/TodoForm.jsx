@@ -1,5 +1,9 @@
 import { IconDeviceFloppy, IconRefresh } from "@tabler/icons-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { postTodoAction, putTodoAction } from "../../../slices/todoSlice";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function TodoForm() {
   const [form, setForm] = useState({
@@ -8,10 +12,14 @@ function TodoForm() {
     description: "",
     status: false,
   });
+
   const [errors, setErrors] = useState({
     task: "",
     description: "",
   });
+
+  const { todo } = useSelector((state) => state.todo);
+  const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -34,13 +42,11 @@ function TodoForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
     let errors = {};
-
-    if (form.task === "") {
+    if (!form.task) {
       errors.task = "Tugas wajib di isi";
     }
-    if (form.description === "") {
+    if (!form.description) {
       errors.description = "Deskripsi wajib di isi";
     }
 
@@ -50,11 +56,13 @@ function TodoForm() {
 
     if (form.id) {
       const todo = { ...form };
+      dispatch(putTodoAction(todo));
     } else {
       const todo = {
         ...form,
         id: new Date().getMilliseconds().toString(),
       };
+      dispatch(postTodoAction(todo));
     }
     clearForm();
   };
@@ -70,6 +78,17 @@ function TodoForm() {
       return initial;
     });
   };
+
+  useEffect(() => {
+    if (todo) {
+      setForm({
+        id: todo.id,
+        task: todo.task,
+        description: todo.description,
+        status: todo.status,
+      });
+    }
+  }, [todo]);
 
   return (
     <form
