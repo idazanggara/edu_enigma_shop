@@ -1,5 +1,4 @@
 import { IconDeviceFloppy, IconRefresh } from "@tabler/icons-react";
-import PropTypes from "prop-types";
 import { useState } from "react";
 
 function TodoForm() {
@@ -38,10 +37,10 @@ function TodoForm() {
 
     let errors = {};
 
-    if (this.state.form.task === "") {
+    if (form.task === "") {
       errors.task = "Tugas wajib di isi";
     }
-    if (this.state.form.description === "") {
+    if (form.description === "") {
       errors.description = "Deskripsi wajib di isi";
     }
 
@@ -51,14 +50,11 @@ function TodoForm() {
 
     if (form.id) {
       const todo = { ...form };
-      // this.props.update(todo);
     } else {
       const todo = {
         ...form,
         id: new Date().getMilliseconds().toString(),
       };
-      // this.props.add(todo);
-      // this.props.postTodoAction(todo);
     }
     clearForm();
   };
@@ -71,7 +67,6 @@ function TodoForm() {
         description: "",
         status: false,
       };
-      // this.props.selectedTodo(null);
       return initial;
     });
   };
@@ -103,9 +98,7 @@ function TodoForm() {
         </label>
         <textarea
           onChange={handleChange}
-          className={`form-control ${
-            this.state.errors.description && "is-invalid"
-          }`}
+          className={`form-control ${errors.description && "is-invalid"}`}
           id="description"
           name="description"
           rows="3"
@@ -136,7 +129,7 @@ function TodoForm() {
           Submit
         </button>
         <button
-          onClick={this.clearForm}
+          onClick={clearForm}
           type="reset"
           className="btn btn-secondary me-2 d-flex align-items-center gap-2"
         >
@@ -149,7 +142,5 @@ function TodoForm() {
     </form>
   );
 }
-
-TodoForm.propTypes = {};
 
 export default TodoForm;

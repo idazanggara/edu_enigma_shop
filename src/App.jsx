@@ -5,11 +5,9 @@ import Todo from "@pages/Todo/Todo";
 import withUIState from "@shared/hoc/withUIState";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import Counter from "./pages/Counter/Counter";
 
 function App({ showToast }) {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [count, setCount] = useState(5);
 
   const [page, setPage] = useState(<Todo />);
 
