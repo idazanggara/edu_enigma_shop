@@ -1,57 +1,50 @@
-import React from "react";
 import Sidebar from "@shared/components/Sidebar/Sidebar";
 import Header from "@shared/components/Header/Header";
 import Login from "@pages/Authentication/Login";
 import Todo from "@pages/Todo/Todo";
 import withUIState from "@shared/hoc/withUIState";
 import PropTypes from "prop-types";
+import { useState } from "react";
+import Counter from "./pages/Counter/Counter";
 
-class App extends React.Component {
-  state = {
-    page: <Todo />,
-    isAuthenticated: true,
+function App({ showToast }) {
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [count, setCount] = useState(5);
+
+  const [page, setPage] = useState(<Todo />);
+
+  // number
+  const navigateTo = (page) => {
+    setPage(page);
   };
 
-  navigateTo = (component) => {
-    this.setState({
-      page: component,
-    });
-  };
-
-  handleAuthentication = (status) => {
-    this.setState({
-      isAuthenticated: status,
-    });
-
+  const handleAuthentication = (status) => {
+    setIsAuthenticated(status);
     if (status) {
-      this.props.showToast("Sukses login.");
+      showToast("Sukses login.");
     } else {
-      this.props.showToast("Sukses logout.");
+      showToast("Sukses logout.");
     }
   };
 
-  render() {
-    const { page, isAuthenticated } = this.state;
-
-    return (
-      <>
-        {isAuthenticated ? (
-          <div className="d-flex">
-            <Sidebar
-              navigateTo={this.navigateTo}
-              handleAuthentication={this.handleAuthentication}
-            />
-            <main className="w-100 flex-grow-1">
-              <Header handleAuthentication={this.handleAuthentication} />
-              {page}
-            </main>
-          </div>
-        ) : (
-          <Login handleAuthentication={this.handleAuthentication} />
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      {isAuthenticated ? (
+        <div className="d-flex">
+          <Sidebar
+            navigateTo={navigateTo}
+            handleAuthentication={handleAuthentication}
+          />
+          <main className="w-100 flex-grow-1">
+            <Header handleAuthentication={handleAuthentication} />
+            {page}
+          </main>
+        </div>
+      ) : (
+        <Login handleAuthentication={handleAuthentication} />
+      )}
+    </>
+  );
 }
 
 App.propTypes = {
